@@ -1,0 +1,174 @@
+{
+	"easycom": { //easycom,按需自动注册组件。原则上可以把所有页面引入组件方法删掉，会自动引入。
+		"autoscan": true,
+		"custom": {
+			"^u-(.*)": "@/uview-ui/components/u-$1/u-$1.vue",
+			"^app-(.*)": "@/components/app-$1/app-$1.vue"
+		}
+	},
+	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+		{
+			"path": "pages/index/index",
+			"style": {
+				"navigationBarTitleText": "中曜招标",
+				"navigationBarBackgroundColor": "#4876FF",
+				"navigationBarTextStyle": "white"
+			},
+			"meta": {
+				"auth": false, //需要登录
+				"async": true, //是否同步
+				"title": "主页",
+				"group": "主页"
+			}
+		}, {
+			"path": "pages/mine/mine",
+			"style": {
+				"navigationStyle": "custom",
+				"navigationBarTitleText": "个人中心",
+				"navigationBarBackgroundColor": "#4876FF",
+				"navigationBarTextStyle": "white"
+			},
+			"meta": {
+				"auth": true, //需要登录
+				"async": true, //是否同步
+				"title": "个人中心",
+				"group": "个人中心"
+			}
+		}, {
+			"path": "pages/mine/info",
+			"style": {
+				"navigationBarTitleText": "个人信息",
+				"navigationBarBackgroundColor": "#4876FF",
+				"navigationBarTextStyle": "white"
+			},
+			"meta": {
+				"auth": true, //需要登录
+				"async": true, //是否同步
+				"title": "个人信息",
+				"group": "个人信息"
+			}
+		}, {
+			"path": "pages/notice/notice",
+			"style": {
+				"navigationBarTitleText": "公告",
+				"navigationBarBackgroundColor": "#4876FF",
+				"navigationBarTextStyle": "white"
+			},
+			"meta": {
+				"auth": true, //需要登录
+				"async": true, //是否同步
+				"title": "公告",
+				"group": "公告"
+			}
+		}
+	],
+	"subPackages": [{
+		"root": "pages/crm",
+		"pages": [{
+			"path": "kehu/khDetail",
+			"style": {
+				"navigationBarTitleText": "详情",
+				"enablePullDownRefresh": false,
+				"navigationBarBackgroundColor": "#4876FF",
+				"navigationBarTextStyle": "white"
+			}
+
+		}, {
+			"path": "genJin/detail",
+			"style": {
+				"navigationBarTitleText": "公告详情",
+				"enablePullDownRefresh": false,
+				"navigationBarBackgroundColor": "#4876FF",
+				"navigationBarTextStyle": "white"
+			}
+
+		}, {
+			"path": "kehu/kehu",
+			"style": {
+				"navigationBarTitleText": "报名列表",
+				"navigationBarBackgroundColor": "#4876FF",
+				"navigationBarTextStyle": "white"
+			}
+
+		}, {
+			"path": "kehu/addKeHu",
+			"style": {
+				"navigationBarTitleText": "报名",
+				"navigationBarBackgroundColor": "#4876FF",
+				"navigationBarTextStyle": "white"
+			}
+
+		}]
+	},{
+		"root": "pages/regLogin",
+		"pages": [{
+			"path": "login",
+			"style": {
+				"navigationBarTitleText": "登录",
+				"navigationStyle": "custom",
+				"navigationBarTextStyle": "black",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "wxLogin",
+			"style": {
+				"navigationBarTitleText": "微信登录",
+				"navigationBarBackgroundColor": "#4876FF",
+				"enablePullDownRefresh": false,
+				"navigationBarTextStyle": "white"
+			}
+
+		}, {
+			"path": "setPassword",
+			"style": {
+				"navigationBarTitleText": "修改密码",
+				"navigationBarBackgroundColor": "#4876FF",
+				"navigationBarTextStyle": "white",
+				"enablePullDownRefresh": false
+			}
+
+		}]
+	}],
+	"permission": {
+		"scope.userLocation": {
+			"desc": "你的位置信息将用于小程序位置接口的效果展示" // 高速公路行驶持续后台定位
+		}
+	},
+	"tabBar": {
+		"color": "#8a8a8a",
+		"selectedColor": "#473C8B",
+		"borderStyle": "black",
+		"backgroundColor": "#ffffff",
+		"fontSize": "13",
+		"list": [{
+				"pagePath": "pages/index/index",
+				"iconPath": "static/tabbar/index.png",
+				"selectedIconPath": "static/tabbar/indexA.png",
+				"text": "首页"
+			},{
+				"pagePath": "pages/notice/notice",
+				"iconPath": "static/tabbar/backlog.png",
+				"selectedIconPath": "static/tabbar/backlogA.png",
+				"text": "公告"
+			},
+			{
+				"pagePath": "pages/mine/mine",
+				"iconPath": "static/tabbar/mine.png",
+				"selectedIconPath": "static/tabbar/mineA.png",
+				"text": "我的"
+			}
+		]
+	},
+	// 默认导航栏样式
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarBackgroundColor": "#fff",
+		"backgroundColor": "#fff",
+		"navigationStyle": "default", //默认是default，即带有原生导航栏。custom,取消导航栏。
+		"SplitLineStyles": {
+			"color": "#ccc",
+			"height": "1px"
+		}
+	}
+}

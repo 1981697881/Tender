@@ -1,0 +1,10 @@
+@import '@/static/style/_variables.scss';
+@import '@/static/style/_utils.scss';
+@import '@/static/style/_mixin.scss';
+@import '@/static/style/uni.css';
+$IMG_URL: 'https://gzfzdev.com'; //css中背景图片变量。js图片变量在env.js
+
+@import "uview-ui/theme.scss";
+.container{
+	// padding: 10px;
+}

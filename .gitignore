@@ -1,0 +1,3 @@
+# Project exclude paths
+/node_modules/
+/uni_modules/uni-id/uniCloud/cloudfunctions/common/uni-id/node_modules/
