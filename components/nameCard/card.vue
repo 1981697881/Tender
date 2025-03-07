@@ -33,7 +33,7 @@
 		},
 		data() {
 			return {
-				AppLogo: '/static/img/logo.png'
+				AppLogo: 'https://zy.gzfzdev.com/file/logo.png'
 			}
 		},
 		methods: {

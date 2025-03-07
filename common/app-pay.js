@@ -26,8 +26,9 @@ export default class AppPay {
 	// 			wallet			v							v					v						v
 
 
-	constructor(payment, order) {
+	constructor(params,payment, order) {
 		this.payment = payment;
+		this.params = params;
 		this.order = order;
 		this.platform = uni.getStorageSync('platform');
 		let payMehod = this.getPayMethod();
@@ -95,15 +96,13 @@ export default class AppPay {
 		});
 		return new Promise((resolve, reject) => {
 			let that = this;
-			let params = {
-				order_sn: that.order.order_sn,
-				payment: that.payment
-			}
+			let params = that.params;
+			console.log(params)
 			if (uni.getStorageSync('openid')) {
-				params.openid = uni.getStorageSync('openid');
+				params.openId = uni.getStorageSync('openid');
 			}
 			api('pay.prepay', params).then(res => {
-				if (res.code === 1) {
+				if (res.flag) {
 					if (res.data === 'no_openid') {
 						uni.hideLoading();
 						uni.showModal({
@@ -130,7 +129,7 @@ export default class AppPay {
 				} else {
 					uni.hideLoading();
 					uni.showToast({
-						title: res.msg,
+						title: res.data.err_code_des,
 						icon: 'none'
 					})
 				}
@@ -188,7 +187,7 @@ export default class AppPay {
 	async wxMiniProgramPay() {
 		let that = this;
 		let result = await this.prepay();
-		let payData = result.data.pay_data;
+		let payData = result.data;
 		uni.requestPayment({
 			provider: 'wxpay',
 			timeStamp: payData.timeStamp,
@@ -197,10 +196,15 @@ export default class AppPay {
 			signType: payData.signType,
 			paySign: payData.paySign,
 			success: function(res) {
+				console.log(res)
+				uni.showToast({
+					title: "支付成功",
+					icon: 'success'
+				})
 				Router.replace({
-					path: '/pages/order/payment/result',
+					path: '/pages/crm/kehu/result',
 					query: {
-						orderSn: that.order.order_sn,
+						orderSn: that.params,
 						type: that.payment,
 						pay: 1
 					}
@@ -208,11 +212,15 @@ export default class AppPay {
 			},
 			fail: function(err) {
 				console.log('支付取消或者失败:', err);
+				uni.showToast({
+					title: err,
+					icon: 'error'
+				})
 				if (err.errMsg !== "requestPayment:fail cancel") {
 					Router.replace({
-						path: '/pages/order/payment/result',
+						path: '/pages/crm/kehu/result',
 						query: {
-							orderSn: that.order.order_sn,
+							orderSn: that.params,
 							type: that.payment,
 							pay: 0
 						}

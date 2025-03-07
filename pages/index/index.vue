@@ -179,9 +179,9 @@
 				that.init();
 				console.log(123)
 				console.log(this.userInfo)
-				if(that.userInfo.type != null && that.userInfo.type != '0'){
+				/* if(that.userInfo.type != null && that.userInfo.type != '0'){ */
 					that.jump(item.url)
-				}else{
+				/* }else{
 					uni.showModal({
 						title: '提示',
 						showCancel: false,
@@ -193,7 +193,7 @@
 							});
 						}
 					})
-				}
+				} */
 			},
 			// 路由跳转
 			jump(path, parmas) {

@@ -1,7 +1,7 @@
 <template>
 	<view>
 		<view @click="gotoAdd" class="addBtn">
-			<u-icon name="plus" color="#ffffff" size="40"></u-icon>
+			<u-icon :name="icons" color="#ffffff" size="40"></u-icon>
 		</view>
 	</view>
 </template>
@@ -11,6 +11,10 @@
 		props: {
 			url: {
 				type: String
+			},
+			icons: {
+				type: String,
+				default: "plus"
 			}
 		},
 		data() {

@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<dataNull v-if="list.length == 0" src="/static/img/chahua/gjNull.png" title="暂无相关合同" title1="请添加或者更换搜索添加"></dataNull>
+		<dataNull v-if="list.length == 0" src="https://zy.gzfzdev.com/file/gjNull.png" title="暂无相关合同" title1="请添加或者更换搜索添加"></dataNull>
 		<scroll-view v-else scroll-y="true" :style="{height: scrollHeight}" @scrolltolower="selectDataFun"
 			refresher-enabled :refresher-threshold="200" :refresher-triggered="triggered" refresher-background="gray" @refresherrefresh="onRefresh" @refresherrestore="onRestore">
 			<view v-for="(item, index) in list" :key="index" @click="clickFun(item, index)">

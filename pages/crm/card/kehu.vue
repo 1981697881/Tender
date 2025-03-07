@@ -13,6 +13,10 @@
 					<text class="colorGray">提交时间：</text>
 					<text>{{$u.timeFrom(item.createDate, 'yyyy年mm月dd日')}}</text>
 				</view>
+				<view v-if="!item.name">
+					<text class="colorGray">是否缴费：</text>
+					<text :class="item.status=='1'?'greenColor':'redColor'">{{item.status=="1"?"已缴费":"未缴费"}}</text>
+				</view>
 				<!--客户阶段-->
 				<view class="khJieDuan">
 					<text style="color: #13B8FF;">{{item.jieDuan}}</text>
@@ -28,13 +32,13 @@
 				</view> -->
 			</view>
 			<!--标签-->
-			<view v-if="!isSelect" class="bottomRow">
+			<view v-if="!item.name&&item.status!='1'" class="bottomRow">
 				<view class="lxRow" v-if="userInfo.type=='1'&& (item.secondStatus !=  '1' || item.firstStatus !=  '1')"  @click.stop="audit({'id': item.projectId})">
 					审核
 				</view>
 				<view class="lxRow" v-else>
 				</view>
-				<view class="lxRow" @click.stop="moreShowFun">
+				<view class="lxRow" @click.stop="moreShowFun(item)">
 					<image src="/static/icon/gengduosz.png" mode="aspectFill"></image>
 				</view>
 			</view>
@@ -44,6 +48,7 @@
 
 <script>
 	import { mapMutations, mapActions, mapState } from 'vuex';
+	import AppPay from '@/common/app-pay';
 	export default {
 		props: {
 			item: {
@@ -81,16 +86,36 @@
 				userInfo: state => state.user.userInfo,
 			}),
 		},
+		onShow() {
+			if(that.isLoadSelectKhById) {
+				that.selectKhByIdFun();
+			}
+		},
 		methods: {
-			moreShowFun: function() {
+			moreShowFun: function(item) {
 				let that = this
 				let status = this.item.status;
 				uni.$addInfo = this.item;
+				let itemList = ['编辑'];
+				if(item.status == null){
+					itemList.push('支付');
+				}
 				uni.showActionSheet({
-				    itemList: ['编辑'],
+				    itemList: itemList,
 				    success: function (res) {
 						if(res.tapIndex == 0){
 							that.jump('/pages/crm/kehu/addKeHu',{type: 'update'})
+						} else if(res.tapIndex == 1){
+							//测试订单
+							let params = {
+								amount: 1,
+								openId: that.userInfo.openid,	
+								payType: 1,
+								pojectNo: item.projectNum,
+								projectName: item.projectName
+							};
+							uni.$khInfo = item;
+							let pay = new AppPay(params, "wechat", {} );
 						}
 				    },
 				    fail: function (res) {

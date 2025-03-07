@@ -90,10 +90,26 @@
 				"navigationBarTextStyle": "white"
 			}
 
+		},{
+			"path": "kehu/kehuGh",
+			"style": {
+				"navigationBarTitleText": "项目列表",
+				"navigationBarBackgroundColor": "#4876FF",
+				"navigationBarTextStyle": "white"
+			}
+
 		}, {
 			"path": "kehu/addKeHu",
 			"style": {
 				"navigationBarTitleText": "报名",
+				"navigationBarBackgroundColor": "#4876FF",
+				"navigationBarTextStyle": "white"
+			}
+
+		}, {
+			"path": "kehu/result",
+			"style": {
+				"navigationBarTitleText": "支付结果",
 				"navigationBarBackgroundColor": "#4876FF",
 				"navigationBarTextStyle": "white"
 			}

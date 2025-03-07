@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<dataNull v-if="gjList.length == 0" src="/static/img/chahua/gjNull.png" title="抱歉" title1="暂无公告">
+		<dataNull v-if="gjList.length == 0" src="https://zy.gzfzdev.com/file/gjNull.png" title="抱歉" title1="暂无公告">
 		</dataNull>
 		<view v-else>
 			<scroll-view scroll-y="true" :style="{height: scrollHeight}" @scrolltolower="selectDataFun"
@@ -36,7 +36,7 @@
 				gjList: [],
 				isMore: true,
 				pageIndex: 1,
-				scrollHeight: '667px',
+				scrollHeight: '700px',
 				matchObj: {},
 				clientIdArr: [],
 				searchValue: '',
@@ -57,7 +57,7 @@
 			let obj = {};
 			uni.getSystemInfo({
 				success(res) {
-					that.scrollHeight = res.windowHeight - 40 + 'px';
+					that.scrollHeight = res.windowHeight + 'px';
 				}
 			})
 			that.selectDataFun()
@@ -79,7 +79,7 @@
 				that.init();
 				console.log(123)
 				console.log(this.userInfo)
-				if(that.userInfo.type != null && that.userInfo.type != '0'){
+				/* if(that.userInfo.type != null && that.userInfo.type != '0'){ */
 					if (!that.isMore) {
 						return
 					}
@@ -96,7 +96,7 @@
 							that.isMore = false;
 						}
 					});
-				}else{
+				/* }else{
 					uni.showModal({
 						title: '提示',
 						showCancel: false,
@@ -108,7 +108,7 @@
 							});
 						}
 					})
-				}
+				} */
 				
 			},
 			// 下拉刷新

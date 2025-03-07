@@ -61,14 +61,13 @@
 				</view>
 				<image class="enterImg" src="../../static/img/enter.png" mode="aspectFill"></image>
 			</view>
-			<view v-if="userInfo.id" class="row" @click="logoutFun">
+			<!-- <view v-if="userInfo.id" class="row" @click="logoutFun">
 				<view class="rowLeft">
 					<u-icon class="leftIcon" name="info-circle-fill" color="#ff0000" size="50"></u-icon>
-					<!-- <image src="../../static/img/shezhi.png" mode="aspectFill"></image> -->
 					<text class="color000">退出登录</text>
 				</view>
 				<image class="enterImg" src="../../static/img/enter.png" mode="aspectFill"></image>
-			</view>
+			</view> -->
 		</view>
 		<!--无网络提示-->
 		<u-no-network></u-no-network>

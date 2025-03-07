@@ -1,8 +1,8 @@
 <template>
 	<view>
-		<topDropdown :isSxShow="true" :isPaiXu="true" :dropdown1="dropdown1" :options1="options1" :optionsSx="sxList" :optionsPx="optionsPx" :isDuoXuan="true" searchLabel1="客户名称" searchPh1="请输入客户名称" @searchBoxEmitFun="searchBoxEmitFun" @dropDownFun1="dropDownFun1" @optionSxFun="optionSxFun" @optionPxFun="optionPxFun"></topDropdown> <!-- searchUrl="../search/search?type=客户搜索"-->
-		<scroll-view scroll-y="true" :style="{height: scrollHeight}" @scrolltolower="selectKehuFun"
-			refresher-enabled :refresher-threshold="200" :refresher-triggered="triggered" refresher-background="gray"
+		<!--搜索弹窗-->		<u-popup v-model="searchShow" mode="center" width="666rpx" border-radius="14" :closeable="false">			<view class="searchBox">				<view class="searchTitle">搜索</view>				<u-field v-model="searchValue" label="项目名称" placeholder="请输入项目名称"					clear-size="40"></u-field>				<view class="searchBtnRow">					<u-button type="warning" class="searchBtn" :ripple="true" ripple-bg-color="#909399" :plain="true" size="medium" @click="searchShow = false">取消</u-button>					<u-button type="primary" class="searchBtn" :ripple="true" ripple-bg-color="#909399" :plain="true" size="medium" @click="searchBoxFun">确认</u-button>				</view>			</view>		</u-popup>
+		<scroll-view scroll-y="true" :style="{height: scrollHeight}" @scrolltolower="selectKehuFun" refresher-enabled
+			:refresher-threshold="200" :refresher-triggered="triggered" refresher-background="gray"
 			@refresherrefresh="onRefresh" @refresherrestore="onRestore">
 			<view v-if="list.length > 0">
 				<view v-for="(item, index) in list" :key="index" @click="khCardClickFun(item)">
@@ -11,47 +11,35 @@
 				<getMore :isMore="isMore" nullMsg="已加载全部~"></getMore>
 				<view class="h200"></view>
 			</view>
-			<dataNull v-else src="/static/img/dataNull.png" title="暂无相关客户哦~"></dataNull>
+			<dataNull v-else src="/static/img/dataNull.png" title="暂无项目相关数据~"></dataNull>
 		</scroll-view>
-		<u-action-sheet :list="sheetList" v-model="moreShow"></u-action-sheet>
+		<addBtn :icons="'search'" @tap="searchShow = true"></addBtn>
 	</view>
 </template>
 
 <script>
 	let that = this;
 	import {
-		crmKeHuApi
-	} from '../../../static/utils/api.js'
-	import { cjDropDownData, cjDropDownData1, khsxData, datePxData } from '../../../static/utils/dropdown.js'
+		getDayFun,
+		getDayByNumFun
+	} from '@/static/utils/date.js'
 	import dataNull from '@/components/dataNull/dataNull.vue'
+	import addBtn from '@/components/addBtn/addBtn.vue'
 	import getMore from '@/components/getMore/getMore.vue'
-	import topDropdown from '../../../components/topDropdown/topDropdown.vue'
-	import lianxiRow from '../../../components/lianxiRow/lianxiRow.vue'
 	import khCard from '../card/kehu.vue'
 	export default {
 		components: {
 			dataNull,
+			addBtn,
 			getMore,
-			topDropdown,
-			lianxiRow,
 			khCard
 		},
 		data() {
 			return {
 				triggered: false,
-				dropdown1: '全部',
-				options1: [],
-				optionsPx: datePxData,
+				searchShow: false,
 				sxList: [],
 				list: [],
-				moreShow: false,
-				sheetList: [{
-						text: '添加跟进'
-					},
-					{
-						text: '添加标签'
-					}
-				],
 				isMore: true,
 				pageIndex: 1,
 				scrollHeight: '667px',
@@ -69,45 +57,40 @@
 				depId: undefined
 			}
 		},
+		onShow() {
+			this.selectKehuFun();
+		},
 		onLoad(e) {
 			that = this;
-			let khsxList = JSON.stringify(khsxData);
-			that.sxList = JSON.parse(khsxList);
-			let obj = {
-				status: 0
-			};
-			if(uni.$userInfo.isDepManager) {
-				that.options1 = cjDropDownData;
-				that.depId = uni.$userInfo.depManager_Id;
-			} else {
-				that.options1 = cjDropDownData1;
-				obj.cjRenId = uni.$userInfo._id;
-			}
-			if(e.type) {
+			let obj = {};
+			if (e.type) {
 				that.isSelect = true;
 			}
-			that.matchObj = obj;
-			that.optionsReq = JSON.stringify(obj);
 			that.pageType = e.type ? e.type : '';
 			uni.getSystemInfo({
 				success(res) {
 					that.scrollHeight = res.windowHeight - 40 + 'px';
 				}
 			})
-			that.selectKehuFun();
-			uni.$on('deleteKhFun', that.deleteKhFun)
+			/* uni.$on('deleteKhFun', that.deleteKhFun)
 			uni.$on('updateListByIndex', that.updateListByIndex)
 			uni.$on('addItemInListFun', that.addItemInListFun)
-			uni.$on('cxGetDataFun', that.cxGetDataFun)
+			uni.$on('cxGetDataFun', that.cxGetDataFun) */
 		},
 		onBackPress() {
-			uni.$off('deleteKhFun', that.deleteKhFun)
+			/* uni.$off('deleteKhFun', that.deleteKhFun)
 			uni.$off('updateListByIndex', that.updateListByIndex)
 			uni.$off('addItemInListFun', that.addItemInListFun)
-			uni.$off('cxGetDataFun', that.cxGetDataFun)
+			uni.$off('cxGetDataFun', that.cxGetDataFun) */
 		},
 		methods: {
-			// 查询用户
+			jump(path, query) {
+				this.$Router.push({
+					path: path,
+					query: query
+				});
+			},
+			// 查询列表
 			selectKehuFun: function() {
 				if (!that.isMore) {
 					return
@@ -116,90 +99,27 @@
 					title: '加载中...',
 					mask: true
 				})
-				let matchObj = {
-					status: 0,
-				}
-				Object.assign(matchObj, that.matchObj);
-				let reqObj = {
-					matchObj,
-					dateReq: that.dateReq,
-					pageIndex: that.pageIndex,
-					depId: that.depId,
-					tabNoEqualArr: that.tabNoEqualArr,
-					sortObj: that.sortObj,
-					searchValue: that.searchValue,
-					isFzrLookup: "$cjRenId"
-				}
-				let reqData = {
-					action: 'selectKehu',
-					params: reqObj
-				}
-				console.log(reqData)
-				crmKeHuApi(reqData)
-					.then(res => {
-						this.triggered = false;
-						let data = res.result.data;
-						console.log(data)
-						if (that.pageIndex == 1) {
-							that.list = [];
-						}
-						if (data.length == 20) {
-							that.pageIndex += 1;
-							that.isMore = true;
-						} else {
-							that.isMore = false;
-						}
-						that.list = that.list.concat(data);
-					})
+				that.$api('bidding.projectInitiationList', {projectName: this.searchValue}, {
+				}).then(res => {
+					if (res.flag) {
+						that.list = res.data.records
+						that.triggered = false;
+						that.isMore = false;
+						uni.hideLoading();
+					}
+				});
+				
 			},
 			// 客户点击方法
 			khCardClickFun: function(item) {
-				if (that.pageType == 'lxr') {
-					uni.$emit('kehuBindFun', {
-						clientName: item.clientName,
-						clientId: item._id
+				if (that.pageType == 'application') {
+					console.log(item)
+					uni.$emit('kehuBindFun', {  
+						projectName: item.projectName,
+						projectNum: item.pojectNo
 					})
 					uni.navigateBack()
-				} else if (that.pageType == 'addGjjl') {
-					uni.$emit('gjKehuBindFun', {
-						clientName: item.clientName,
-						clientId: item._id
-					})
-					uni.navigateBack()
-				} else if (that.pageType == 'sj') {
-					uni.$emit('sjKehuBindFun', {
-						clientName: item.clientName,
-						clientId: item._id
-					})
-					uni.navigateBack()
-				} else if (that.pageType == 'bjd') {
-					uni.$emit('bjdKehuBindFun', {
-						clientName: item.clientName,
-						clientId: item._id
-					})
-					uni.navigateBack()
-				} else if (that.pageType == 'heTong') {
-					uni.$emit('heTongdKehuBindFun', {
-						clientName: item.clientName,
-						clientId: item._id
-					})
-					uni.navigateBack()
-				} else if(that.pageType == 'topDropDown') {
-					uni.$emit('topDropDownBindFun', {
-						clientName: item.clientName,
-						clientId: item._id
-					})
-					uni.navigateBack()
-				} else if(that.pageType != '') {
-					uni.$emit('kehuBindFun', item)
-					uni.navigateBack()
-				}
-				// else {
-				// 	uni.$khInfo = item;
-				// 	uni.navigateTo({
-				// 		url: './khDetail'
-				// 	})
-				// }
+				} 
 			},
 			// 下拉框回调函数
 			dropDownFun1: function(e) {
@@ -207,11 +127,20 @@
 				let tabNoEqualArr = [];
 				let userInfo = uni.$userInfo;
 				that.depId = undefined;
-				if(e.label == '全部') {
+				if (e.label == '全部') {
 					that.depId = userInfo.depManager_Id;
-				} else if(e.label == '我创建的') {
+				} else if (e.label == '我负责的') {
+					optionsReq.fuZeRenId = userInfo._id;
+				} else if (e.label == '我创建的') {
 					optionsReq.cjRenId = userInfo._id;
-				} else if(e.label == '下属创建') {
+				} else if (e.label == '下属负责') {
+					that.depId = userInfo.depManager_Id;
+					tabNoEqualArr = [{
+						field: 'fuZeRenId',
+						value: userInfo._id
+					}]
+					optionsReq.department = userInfo.departmentId;
+				} else if (e.label == '下属创建') {
 					that.depId = userInfo.depManager_Id;
 					tabNoEqualArr = [{
 						field: 'cjRenId',
@@ -223,66 +152,9 @@
 				that.matchObj = Object.assign(optionsReq, JSON.parse(that.sxReq));
 				that.cxGetDataFun();
 			},
-			// 筛选框回调函数
-			optionSxFun: function(arr) {
-				let matchReq = [];
-				let dateReq = [];
-				for (var i = 0; i < arr.length; i++) {
-					if(arr[i].current !== '' && !arr[i].isDate) {
-						matchReq.push({
-							field: arr[i].field,
-							value: arr[i].arr[arr[i].current]
-						})
-					} else if(arr[i].current !== '' && arr[i].isDate) {
-						dateReq.push({
-							field: arr[i].field,
-							sTime: arr[i].sTime,
-							eTime: arr[i].eTime
-						})
-					}
-				}
-				let reqObj = {};
-				// 动态生成请求对象
-				for(var i = 0; i < matchReq.length; i++) {
-					reqObj[matchReq[i].field] = matchReq[i].value
-				}
-				that.dateReq = dateReq;
-				that.sxReq = JSON.stringify(reqObj);
-				// 合并对象
-				that.matchObj = Object.assign(reqObj, JSON.parse(that.optionsReq));
-				that.cxGetDataFun();
-			},
-			// 排序筛选框回调函数
-			optionPxFun: function(arr) {
-				let sortObj = {
-					update_date: -1
-				}
-				for (var i = 0; i < arr.length; i++) {
-					if (arr[i].current !== '') {
-						sortObj = {}
-						if (arr[i].field == 'create_date') {
-							sortObj.create_date = arr[i].current == 1 ? 1 : -1
-						}
-						if (arr[i].field == 'update_date') {
-							sortObj.update_date = arr[i].current == 1 ? 1 : -1
-						}
-						if (arr[i].field == 'genjin_date') {
-							sortObj.genjin_date = arr[i].current == 1 ? 1 : -1
-						}
-						that.sortObj = sortObj;
-						break;
-					}
-				}
-				that.cxGetDataFun();
-			},
-			// 搜索框回调方法
-			searchBoxEmitFun: function(e) {
-				that.searchValue = e.searchValue1;
-				that.cxGetDataFun()
-			},
 			// 下拉刷新
 			onRefresh: function() {
-				if(that.triggered) return
+				if (that.triggered) return
 				that.triggered = true;
 				that.cxGetDataFun();
 			},
@@ -424,5 +296,191 @@
 		color: #ff5500;
 		border-radius: 10rpx;
 		margin: 6rpx 26rpx 20rpx 0;
+	}
+	.topSxRow {
+		display: flex;
+		align-items: center;
+		border-bottom: 1rpx solid #F8F8F8;
+	}
+	
+	.topSearchView {
+		width: 100rpx;
+		background-color: #FFFFFF;
+		height: 80rpx;
+		display: flex;
+		align-items: center;
+		padding-left: 20rpx;
+		box-sizing: border-box;
+	}
+	
+	/*************************弹窗层******************************/
+	.popupCard {
+		width: 100%;
+		padding: 26rpx 16rpx;
+		border-bottom: 1rpx solid #efefef;
+	}
+	
+	.popupTitle {
+		font-size: 16px;
+		font-weight: bold;
+		margin-bottom: 26rpx;
+	}
+	
+	.popupItem {
+		font-size: 15px;
+		color: #666666;
+		display: flex;
+		align-items: center;
+		flex-wrap: wrap;
+	}
+	
+	.itemCard {
+		width: 160rpx;
+		height: 66rpx;
+		text-align: center;
+		background-color: #e6e6e6;
+		margin-bottom: 26rpx;
+		border-radius: 16rpx;
+		margin-right: 28rpx;
+		overflow: hidden;
+	}
+	
+	.itemCard>view {
+		height: 100%;
+		line-height: 66rpx;
+		overflow: hidden;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+	}
+	
+	.itemCard:nth-child(3),
+	.mr0 {
+		margin-right: 0 !important;
+	}
+	
+	.flexJs {
+		width: 100%;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+	}
+	
+	.popupBottomBtn {
+		width: 100%;
+		height: 100rpx;
+		background-color: #FFFFFF;
+		display: flex;
+		align-items: center;
+		position: fixed;
+		bottom: 0;
+		font-size: 15px;
+	}
+	
+	.settingView {
+		width: 128rpx;
+		height: 100% !important;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+	
+	.popupBtn {
+		width: 50%;
+		height: 100% !important;
+		line-height: 100rpx;
+		text-align: center;
+		color: #FFFFFF;
+		border-radius: 0 !important;
+	}
+	
+	.activeClass {
+		background-image: linear-gradient(45deg, #007AFF, #00aaff);
+		color: #FFFFFF;
+	}
+	
+	.u-dropdown__menu__item {
+		white-space: nowrap !important;
+	}
+	
+	.dateRow {
+		display: flex;
+		align-items: center;
+	}
+	
+	.DateInput {
+		border: 1rpx solid #DEDEDE;
+		padding: 10rpx 26rpx;
+		border-radius: 8rpx;
+	}
+	
+	.marLR16 {
+		margin: 0 16rpx;
+	}
+	
+	.uni-picker-container .uni-picker-custom {
+		z-index: 888888 !important;
+	}
+	
+	.u-drawer {
+		z-index: 998 !important;
+	}
+	
+	.searchBox {
+		padding: 16rpx 26rpx;
+	}
+	
+	.searchTitle {
+		width: 100%;
+		border-bottom: 1rpx solid #DDDDDD;
+		font-size: 16px;
+		font-weight: bold;
+		text-align: center;
+		padding-bottom: 16rpx;
+	}
+	
+	.searchBtnRow {
+		margin: 26rpx 0 16rpx 0;
+		display: flex;
+		align-items: center;
+		justify-content: space-around;
+	}
+	
+	.searchBtn {
+		width: 200rpx;
+		height: 66rpx;
+	}
+	
+	.u-field {
+		font-size: 15px !important;
+	}
+	
+	.kehuRow {
+		width: 100%;
+		height: 66rpx;
+		line-height: 66rpx;
+		text-align: center;
+		background-color: #e6e6e6;
+		margin-bottom: 16rpx;
+		border-radius: 16rpx;
+	}
+	
+	.khScrollView {
+		width: 100%;
+		height: calc(100vh - 145px);
+	}
+	.checkBoxGroup {
+		margin-bottom: 100rpx;
+	}
+	.warning {
+		background-color: #ff9900;
+	}
+	.warning:active {
+		background-color: #ffaa00;
+	}
+	.primary {
+		background-color: #2979ff;
+	}
+	.primary:active {
+		background-color: #55aaff;
 	}
 </style>

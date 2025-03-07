@@ -56,6 +56,7 @@
 			}
 		},
 		onShow() {
+			that.isMore = true
 			this.selectKehuFun();
 		},
 		onLoad(e) {

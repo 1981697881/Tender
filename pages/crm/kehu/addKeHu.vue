@@ -2,13 +2,22 @@
 	<view>
 		<!--基础信息-->
 		<view class="btName">基础信息</view>
-		<view class="flex-white-plr26 ptb10 bdb_f5">
-			<text class="mr26">
-				<text>项目名称</text>
+		<view class="flex-white-plr26 ptb20 mt32 bdb_f5" :class="clientDisabled ? 'disabledStyle' : ''" >
+			<text class="mr26">项目名称
 				<text class="redXingh">*</text>
 			</text>
-			<u-input :disabled="isNotice" v-model="form.projectName" placeholder="必填" />
+			<view  :class="form.projectName ? '' : 'cBlack'">
+				<text style="display: inline-block;width: 450rpx;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;text-align: center;">{{form.projectName ? form.projectName : '请选择'}}</text>
+				<u-icon class="ml26" v-if="!isNotice" @click="selectKehuFun" name="arrow-right" size="40" color="#888888"></u-icon>
+			</view>
 		</view>
+		<!-- <view class="flex-white-plr26 ptb10 bdb_f5">
+			<text class="mr26">
+				<text>项目名称</text>
+				<text class="redXingh">*</text> 
+			</text>
+			<u-input :disabled="isNotice" v-model="form.projectName" placeholder="必填" />
+		</view> -->
 		<view class="flex-white-plr26 ptb10 bdb_f5">
 			<text class="mr26">
 				<text>项目编号</text>
@@ -48,15 +57,15 @@
 			<text class="mr26">营业执照</text>
 		</view>
 		<view class="text-center bg-white">
-			<uni-file-picker :auto-upload="false" v-model="form.businessCertificate" :limit="3" file-mediatype="image"
-				mode="grid" file-extname="png,jpg" @select="select" @delete="delFile" />
+			<uni-file-picker :auto-upload="false" v-model="form.businessCertificate" :limit="1" file-mediatype="image"
+				mode="grid" file-extname="png,jpg" @select="select($event, 'fault',form.businessCertificate)" @delete="delFile($event, 'fault',form.businessCertificate)" />
 		</view>
 		<view class="flex-white-plr26 ptb10 bdb_f5">
 			<text class="mr26">相关资质证明</text>
 		</view>
 		<view class="text-center bg-white">
-			<uni-file-picker :auto-upload="false" v-model="form.relevantInformation" :limit="3" file-mediatype="image"
-				mode="grid" file-extname="png,jpg" @select="select" @delete="delFile" />
+			<uni-file-picker :auto-upload="false" v-model="form.relevantInformation" :limit="1" file-mediatype="image"
+				mode="grid" file-extname="png,jpg" @select="select($event, 'certificate',form.relevantInformation)" @delete="delFile($event, 'certificate',form.relevantInformation)" />
 		</view>
 		<!--提交按钮-->
 		<view class="submitView">
@@ -68,11 +77,17 @@
 </template>
 
 <script>
+	import { mapMutations, mapActions, mapState } from 'vuex';
+	import AppPay from '@/common/app-pay';
 	let that = '';
+	import {
+		API_URL
+	} from '@/env'
 	export default {
 		data() {
 			return {
 				isNotice: false,
+				imageUrl: '',
 				form: {
 					projectName: '',
 					projectNum: '',
@@ -80,8 +95,8 @@
 					transactorsName: '',
 					contactNumber: '',
 					mailbox: '',
-					businessCertificate: '',
-					relevantInformation: ''
+					businessCertificate: [],
+					relevantInformation: []
 				}
 			}
 		},
@@ -103,6 +118,8 @@
 				if (uni.$addInfo) {
 					this.form = uni.$addInfo
 				}
+				this.form.businessCertificate = JSON.parse(uni.$addInfo.businessCertificate)
+				this.form.relevantInformation = JSON.parse(uni.$addInfo.relevantInformation)
 				if (e.type == 'update') {
 					uni.setNavigationBarTitle({
 						title: '修改报名信息'
@@ -113,8 +130,123 @@
 					title: e.name
 				})
 			}
+			uni.$on('kehuBindFun', that.gjKehuBindFun)
+		},
+		onBackPress() {
+			uni.$off('kehuBindFun', that.gjKehuBindFun)
+		},
+		created: function() {
+			this.imageUrl = API_URL.replace("/tendering", "") + 'uploadFiles/image/'
+		},
+		computed: {
+			...mapState({
+				userInfo: state => state.user.userInfo,
+			}),
 		},
 		methods: {
+			// 绑定项目
+			gjKehuBindFun: function(e) {
+				let that = this;
+				console.log(this.isNotice)
+				console.log(e)
+				if(!that.isNotice) {
+					if(e.projectNum != '' && e.projectName != '') {
+						that.form.projectNum = e.projectNum;
+						that.form.projectName = e.projectName;
+					}
+				} 
+			},
+			// 选择所属客户
+			selectKehuFun: function() {
+				if(!that.isNotice) {
+					uni.navigateTo({
+						url: '../kehu/kehuGh?type=application'
+					})
+				}
+			},
+			// 选择文件后触发 - 支持多选
+			select(e, action, val) {
+				let that = this
+				// tempFiles - Array[Files]
+				// 控制台查看该组件的files数据类型
+				// console.log('选择文件：', e);
+				e.tempFiles.map((item, index) => {
+					uni.uploadFile({
+						url: API_URL + 'file/imgUpload',
+						filePath: item.url,
+						name: 'imgS',
+						header: {
+							Authorization: uni.getStorageSync('token')
+						},
+						success: function(uploadFileRes) {
+							let data = JSON.parse(uploadFileRes.data);
+							if (action === 'fault') {
+								// 故障图片
+								if (!val instanceof Array) {
+									val = []
+								}
+								let actionData = val;
+								actionData.push({
+									path: that.imageUrl + data.data,
+									uuid: data.data
+								});
+							} else if (action === 'certificate') {
+								// 凭证图片
+								if (!val instanceof Array) {
+									val = []
+								}
+								let actionData = val;
+								actionData.push({
+									path: that.imageUrl + data.data,
+									uuid: data.data
+								});
+							}
+							uni.showToast({
+								icon: 'success',
+								title: data.msg
+							});
+						},
+						fail: err => {
+							console.log('uploadImage fail', err);
+							uni.showModal({
+								content: err.errMsg,
+								showCancel: false
+							});
+						}
+					});
+				});
+			},
+			// 文件从列表移除时触发
+			delFile(e, action, val) {
+				// tempFile - Object[Files]
+				const {
+					url
+				} = e.tempFile;
+				console.log(e.tempFile)
+				// 需要操作的目标对象
+				if (action === 'fault') {
+					// 故障图片
+					let actionData = val;
+					for (let i = 0; i < actionData.length; i++) {
+						// 删除对应的file
+						if (actionData[i].uuid === e.tempFile.uuid) {
+							actionData.splice(i, 1);
+							return;
+						}
+					}
+				} else if (action === 'certificate') {
+					// 凭证图片
+					let actionData = val;
+					for (let i = 0; i < actionData.length; i++) {
+						// 删除对应的file
+						if (actionData[i].uuid === e.tempFile.uuid) {
+							actionData.splice(i, 1);
+							return;
+						}
+					}
+				}
+			
+			},
 			GetRequest(urlStr) {
 				if (typeof urlStr == 'undefined') {
 					var url = decodeURI(location.search); //获取url中"?"符后的字符串
@@ -196,7 +328,12 @@
 						title: '提交中...'
 					})
 				}
-				that.$api('bidding.signUp', this.form).then(res => {
+				var params = {...this.form}
+				params.nickName = this.userInfo.nickName
+				console.log(params.businessCertificate)
+				params.businessCertificate = params.businessCertificate.length>0?params.businessCertificate[0]["path"]:""
+				params.relevantInformation = params.relevantInformation.length>0?params.relevantInformation[0]["path"]:""
+				that.$api('bidding.signUp', params).then(res => {
 					if (res.flag) {
 						uni.hideLoading();
 						uni.showToast({
@@ -205,7 +342,33 @@
 							duration: 888,
 							mask: true
 						})
-						this.$Router.back();
+						uni.showModal({
+							title: '提示',
+							content: '检测到尚未缴费，是否立即缴费',
+							success(res) {
+								if(res.confirm) {
+									let params = {
+										amount: 1,
+										openId: that.userInfo.openid,	
+										payType: 1,
+										pojectNo: that.form.projectNum,
+										projectName: that.form.projectName
+									};  
+									let pay = new AppPay(params, "wechat", {} );
+									uni.$khInfo = that.form;
+								}else{
+									that.$Router.back();
+								}
+							}
+						})
+					}else{
+						uni.hideLoading();
+						uni.showToast({
+							title: res.msg,
+							icon: 'error',
+							duration: 888,
+							mask: true
+						})
 					}
 				});
 				/* crmKeHuApi(reqData)

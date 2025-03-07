@@ -34,7 +34,18 @@ export default {
 			auth: true,
 			method: 'POST',
 			// desc: '审核',
+		},projectInitiationList: {
+			url: 'projectInitiation/projectInitiationList/1/50',
+			auth: true,
+			method: 'POST',
+			// desc: '审核',
+		},registrationList: {
+			url: 'registration/registrationList/1/50',
+			auth: true,
+			method: 'POST',
+			// desc: '审核',
 		},
+		
 	},
 	/** 聊天 ↓ **/
 	chat: {
@@ -234,7 +245,7 @@ export default {
 	/** 支付 ↓ **/
 	pay: {
 		prepay: {
-			url: 'pay/prepay',
+			url: 'WeChat/payMoney',
 			auth: true,
 			method: 'POST',
 			// desc: '发起支付',

@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<dataNull v-if="gjList.length == 0" src="/static/img/chahua/gjNull.png" title="抱歉" title1="暂无公告">
+		<dataNull v-if="gjList.length == 0" src="https://zy.gzfzdev.com/file/gjNull.png" title="抱歉" title1="暂无公告">
 		</dataNull>
 		<view v-else>
 			<scroll-view scroll-y="true" :style="{height: scrollHeight}" @scrolltolower="selectDataFun"

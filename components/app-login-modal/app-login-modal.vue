@@ -92,7 +92,22 @@ export default {
 							console.log(res)
 							that.$store.commit('USER_INFO', res.userInfo);
 			        		 resolve(res);
-			        	}
+			        	},fail: (err) => {
+							console.log(err.errMsg)
+						    // 获取失败，可能用户拒绝授权，尝试引导用户到设置页面
+						    if (err.errMsg.indexOf('user deny') > -1) {
+						      uni.showModal({
+						        title: '提示',
+						        content: '需要获取您的信息，请确认授权',
+						        success: (modalRes) => {
+						          if (modalRes.confirm) {
+						            // 引导用户到设置页面
+						            uni.openSetting();
+						          }
+						        }
+						      });
+						    }
+						  }
 			        });
 			 })
 		},

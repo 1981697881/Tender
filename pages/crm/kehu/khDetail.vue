@@ -8,7 +8,7 @@
 			<view class="myCard">
 				<view class="cardTopName disFlexJ">
 					<text>投标进度</text>
-					<view v-if="khInfo.status == 1" style="color: #F29100;" @click="pageBianjiFun()">
+					<view v-if="khInfo.status != 1" style="color: #F29100;" @click="pageBianjiFun()">
 						修改
 						<u-icon name="edit-pen-fill" color="#F29100"></u-icon>
 					</view>
@@ -69,11 +69,15 @@
 				isLoadSelectKhById: false
 			}
 		},
-		onLoad() {
-			that = this;
+		async onLoad() {
+			let that = this;
 			let e = this.$Route.query
 			that.cardIndex = e.index || -1;
 			that.khInfo = uni.$khInfo || {};
+			console.log(uni.$khInfo)
+			if(uni.$khInfo){
+				await that.getDatailInfo();
+			}
 			that.setJieduanAndStateFun()
 			if(e.fromDetail) {
 				that.selectKhByIdFun(e._id)
@@ -90,6 +94,20 @@
 			}
 		},
 		methods: {
+			async getDatailInfo(){
+				var that = this
+				uni.showLoading({
+					title: '加载中...',
+					mask: true
+				})
+				await that.$api('bidding.registrationList', {projectNum: that.khInfo.projectNum}, {
+				}).then(res => {
+					if (res.flag) {
+						that.khInfo = res.data.records[0]
+						uni.hideLoading()
+					}
+				});
+			},
 			tabChange(index) {
 				this.tabIndex = index;
 				let item = that.tabList[index];
