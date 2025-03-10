@@ -95,6 +95,7 @@
 					transactorsName: '',
 					contactNumber: '',
 					mailbox: '',
+					regFee: 1,
 					businessCertificate: [],
 					relevantInformation: []
 				}
@@ -109,6 +110,7 @@
 			}
 			let e = this.$Route.query
 			if(typeof e.projectName != "undefined"){
+				that.form.regFee = e.regFee
 				that.form.projectName = e.projectName
 				that.form.projectNum = e.projectNumber
 				that.isNotice = true
@@ -153,6 +155,7 @@
 					if(e.projectNum != '' && e.projectName != '') {
 						that.form.projectNum = e.projectNum;
 						that.form.projectName = e.projectName;
+						that.form.regFee = e.regFee;
 					}
 				} 
 			},
@@ -348,7 +351,7 @@
 							success(res) {
 								if(res.confirm) {
 									let params = {
-										amount: 1,
+										amount: that.form.regFee,
 										openId: that.userInfo.openid,	
 										payType: 1,
 										pojectNo: that.form.projectNum,

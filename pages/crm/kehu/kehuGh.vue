@@ -116,6 +116,7 @@
 					console.log(item)
 					uni.$emit('kehuBindFun', {  
 						projectName: item.projectName,
+						regFee: item.regFee,
 						projectNum: item.pojectNo
 					})
 					uni.navigateBack()

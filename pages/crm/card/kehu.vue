@@ -108,7 +108,7 @@
 						} else if(res.tapIndex == 1){
 							//测试订单
 							let params = {
-								amount: 1,
+								amount: item.regFee,
 								openId: that.userInfo.openid,	
 								payType: 1,
 								pojectNo: item.projectNum,
