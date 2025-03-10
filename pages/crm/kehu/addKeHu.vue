@@ -6,9 +6,9 @@
 			<text class="mr26">项目名称
 				<text class="redXingh">*</text>
 			</text>
-			<view  :class="form.projectName ? '' : 'cBlack'">
+			<view  :class="form.projectName ? '' : 'cBlack'" @click="selectKehuFun">
 				<text style="display: inline-block;width: 450rpx;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;text-align: center;">{{form.projectName ? form.projectName : '请选择'}}</text>
-				<u-icon class="ml26" v-if="!isNotice" @click="selectKehuFun" name="arrow-right" size="40" color="#888888"></u-icon>
+				<u-icon class="ml26" v-if="!isNotice" name="arrow-right" size="40" color="#888888"></u-icon>
 			</view>
 		</view>
 		<!-- <view class="flex-white-plr26 ptb10 bdb_f5">
