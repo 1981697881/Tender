@@ -348,12 +348,13 @@
 						uni.showModal({
 							title: '提示',
 							content: '检测到尚未缴费，是否立即缴费',
-							success(res) {
-								if(res.confirm) {
+							success(reso) {
+								if(reso.confirm) {
 									let params = {
 										amount: that.form.regFee,
 										openId: that.userInfo.openid,	
 										payType: 1,
+										regId: res.data["id"],
 										pojectNo: that.form.projectNum,
 										projectName: that.form.projectName
 									};  

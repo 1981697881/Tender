@@ -111,6 +111,7 @@
 								amount: item.regFee,
 								openId: that.userInfo.openid,	
 								payType: 1,
+								regId: item.id,
 								pojectNo: item.projectNum,
 								projectName: item.projectName
 							};
