@@ -26,10 +26,11 @@ export default class AppPay {
 	// 			wallet			v							v					v						v
 
 
-	constructor(params,payment, order) {
+	constructor(params,payment, order, entrance) {
 		this.payment = payment;
 		this.params = params;
 		this.order = order;
+		this.entrance = entrance;
 		this.platform = uni.getStorageSync('platform');
 		let payMehod = this.getPayMethod();
 		payMehod();
@@ -225,6 +226,10 @@ export default class AppPay {
 							pay: 0
 						}
 					});
+				}else{
+					if(that.entrance == 0){
+						Router.back()
+					}
 				}
 			}
 		});

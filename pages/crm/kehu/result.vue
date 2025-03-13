@@ -62,7 +62,7 @@ export default {
 		// 重新支付
 		onPay() {
 			let that = this;
-			let pay = new AppPay(this.orderDetail.orderSn, "wechat", {} );
+			let pay = new AppPay(this.orderDetail.orderSn, "wechat", {}, 1);
 		}
 	}
 };

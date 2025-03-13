@@ -109,14 +109,15 @@
 							//测试订单
 							let params = {
 								amount: item.regFee,
-								openId: that.userInfo.openid,	
+								openId: that.userInfo.openid,
 								payType: 1,
+
 								regId: item.id,
 								pojectNo: item.projectNum,
 								projectName: item.projectName
 							};
 							uni.$khInfo = item;
-							let pay = new AppPay(params, "wechat", {} );
+							let pay = new AppPay(params, "wechat", {}, 1);
 						}
 				    },
 				    fail: function (res) {
@@ -171,7 +172,7 @@
 		position: relative;
 		background-color: #FFFFFF;
 	}
-	
+
 	.genjinBtn {
 		position: absolute;
 		right: 26rpx;
@@ -183,18 +184,18 @@
 		border-radius: 6rpx;
 		font-size: 14px;
 	}
-	
+
 	.genjinBtn:active {
 		background-color: #13B8FF;
 	}
-	
+
 	.topRow1 {
 		margin-bottom: 16rpx;
 		font-size: 15px;
 		color: #000;
 		position: relative;
 	}
-	
+
 	.name {
 		font-size: 16px;
 		margin-bottom: 8rpx;
@@ -204,7 +205,7 @@
 		white-space: nowrap;
 		font-weight: bold;
 	}
-	
+
 	.bottomRow {
 		width: 100%;
 		padding-top: 16rpx;
@@ -215,29 +216,29 @@
 		font-size: 15px;
 		color: #007AFF;
 	}
-	
+
 	.lxRow {
 		display: flex;
 		align-items: center;
 	}
-	
+
 	.lxRow>image {
 		width: 52rpx;
 		height: 52rpx;
 		margin-right: 26rpx;
 	}
-	
+
 	.bqRow {
 		display: flex;
 		align-items: center;
 		flex-wrap: wrap;
 	}
-	
+
 	.bqRow>text {
 		font-size: 14px;
 		color: #888888;
 	}
-	
+
 	.bqRow>view {
 		padding: 6rpx 16rpx;
 		font-size: 14px;

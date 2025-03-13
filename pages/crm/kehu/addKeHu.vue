@@ -14,7 +14,7 @@
 		<!-- <view class="flex-white-plr26 ptb10 bdb_f5">
 			<text class="mr26">
 				<text>项目名称</text>
-				<text class="redXingh">*</text> 
+				<text class="redXingh">*</text>
 			</text>
 			<u-input :disabled="isNotice" v-model="form.projectName" placeholder="必填" />
 		</view> -->
@@ -114,7 +114,7 @@
 				that.form.projectName = e.projectName
 				that.form.projectNum = e.projectNumber
 				that.isNotice = true
-			} 
+			}
 			if (e.type == 'update') {
 				that.pageType = e.type;
 				if (uni.$addInfo) {
@@ -157,7 +157,7 @@
 						that.form.projectName = e.projectName;
 						that.form.regFee = e.regFee;
 					}
-				} 
+				}
 			},
 			// 选择所属客户
 			selectKehuFun: function() {
@@ -248,7 +248,7 @@
 						}
 					}
 				}
-			
+
 			},
 			GetRequest(urlStr) {
 				if (typeof urlStr == 'undefined') {
@@ -352,13 +352,13 @@
 								if(reso.confirm) {
 									let params = {
 										amount: that.form.regFee,
-										openId: that.userInfo.openid,	
+										openId: that.userInfo.openid,
 										payType: 1,
 										regId: res.data["id"],
 										pojectNo: that.form.projectNum,
 										projectName: that.form.projectName
-									};  
-									let pay = new AppPay(params, "wechat", {} );
+									};
+									let pay = new AppPay(params, "wechat", {}, 0 );
 									uni.$khInfo = that.form;
 								}else{
 									that.$Router.back();
@@ -445,7 +445,7 @@
 				}
 				threadGjApi(ooo)
 			},
-			
+
 		}
 	}
 </script>
