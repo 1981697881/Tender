@@ -7,11 +7,11 @@
 				</view>
 				<view>
 					<text class="colorGray">项目编号：</text>
-					<text>{{item.projectNum}}</text>
+					<text>{{item.projectNum || item.pojectNo}}</text>
 				</view>
 				<view>
 					<text class="colorGray">提交时间：</text>
-					<text>{{$u.timeFrom(item.createDate, 'yyyy年mm月dd日')}}</text>
+					<text>{{$u.timeFrom(item.createDate || item.fillingDate, 'yyyy年mm月dd日')}}</text>
 				</view>
 				<view v-if="!item.name">
 					<text class="colorGray">是否缴费：</text>

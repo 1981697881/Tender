@@ -90,6 +90,10 @@
 					query: query
 				});
 			},
+			searchBoxFun(){
+				that.isMore = true
+				that.selectKehuFun()
+			},
 			// 查询列表
 			selectKehuFun: function() {
 				if (!that.isMore) {
@@ -105,6 +109,7 @@
 						that.list = res.data.records
 						that.triggered = false;
 						that.isMore = false;
+						that.searchShow = false;
 						uni.hideLoading();
 					}
 				});
