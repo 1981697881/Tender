@@ -1,7 +1,7 @@
 <template>
 	<view>
-		<!--搜索弹窗-->		<u-popup v-model="searchShow" mode="center" width="666rpx" border-radius="14" :closeable="false">			<view class="searchBox">				<view class="searchTitle">搜索</view>				<u-field v-model="searchValue" label="项目名称" placeholder="请输入项目名称"					clear-size="40"></u-field>				<view class="searchBtnRow">					<u-button type="warning" class="searchBtn" :ripple="true" ripple-bg-color="#909399" :plain="true" size="medium" @click="searchShow = false">取消</u-button>					<u-button type="primary" class="searchBtn" :ripple="true" ripple-bg-color="#909399" :plain="true" size="medium" @click="searchBoxFun">确认</u-button>				</view>			</view>		</u-popup>
-		<scroll-view scroll-y="true" :style="{height: scrollHeight}" @scrolltolower="selectKehuFun" refresher-enabled
+		<!--搜索弹窗-->		<u-popup v-model="searchShow" mode="center" width="666rpx" border-radius="14" :closeable="false">			<view class="searchBox">				<view class="searchTitle">搜索</view>				<u-field v-model="searchValue" label="项目名称" placeholder="请输入项目名称"					clear-size="40"></u-field>				<view class="searchBtnRow">					<u-button type="warning" class="searchBtn" :ripple="true" ripple-bg-color="#909399" :plain="true" size="medium" @click="searchShow = false">取消</u-button>					<u-button type="primary" class="searchBtn" :ripple="true" ripple-bg-color="#909399" :plain="true" size="medium" @click="cxGetDataFun">确认</u-button>				</view>			</view>		</u-popup>
+		<scroll-view scroll-y="true" :style="{height: scrollHeight}" @scrolltolower="onTolower" refresher-enabled
 			:refresher-threshold="200" :refresher-triggered="triggered" refresher-background="gray"
 			@refresherrefresh="onRefresh" @refresherrestore="onRestore">
 			<view v-if="list.length > 0">
@@ -42,6 +42,8 @@
 				list: [],
 				isMore: true,
 				pageIndex: 1,
+				pageTotal: 1,
+				pageSize: 10,
 				scrollHeight: '667px',
 				pageType: '',
 				sortObj: {
@@ -94,21 +96,31 @@
 				that.isMore = true
 				that.selectKehuFun()
 			},
+			onTolower(){
+				this.pageIndex = this.pageIndex + 1
+				this.isMore = true
+				if(this.pageIndex == this.pageTotal){
+					this.isMore = false
+					return
+				}
+				that.selectKehuFun()
+			},
 			// 查询列表
 			selectKehuFun: function() {
 				if (!that.isMore) {
-					return
+					return 
 				}
 				uni.showLoading({
 					title: '加载中...',
 					mask: true
 				})
-				that.$api('bidding.projectInitiationList', {projectName: this.searchValue}, {
+				that.$api('bidding.projectInitiationList', {pageNum: this.pageIndex,pageSize: this.pageSize, projectName: this.searchValue}, {
 				}).then(res => {
-					if (res.flag) {
-						that.list = res.data.records
+					if (res.flag ) {
 						that.triggered = false;
+						that.pageTotal = res.data.pages
 						that.isMore = false;
+						that.list = [...that.list, ...res.data.records]
 						that.searchShow = false;
 						uni.hideLoading();
 					}
@@ -162,6 +174,7 @@
 			onRefresh: function() {
 				if (that.triggered) return
 				that.triggered = true;
+				that.searchValue = ''
 				that.cxGetDataFun();
 			},
 			onRestore: function(e) {
@@ -170,9 +183,12 @@
 			// 重新获取数据
 			cxGetDataFun: function() {
 				that.pageIndex = 1;
+				that.pageTotal = 1;
 				that.isMore = true;
+				that.list = [];
 				that.selectKehuFun();
 			},
+			
 			deleteKhFun: function(e) {
 				let arr = that.list;
 				arr.splice(e.index, 1);

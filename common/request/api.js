@@ -35,12 +35,12 @@ export default {
 			method: 'POST',
 			// desc: '审核',
 		},projectInitiationList: {
-			url: 'projectInitiation/projectInitiationList/1/50',
+			url: 'projectInitiation/projectInitiationList/1/10',
 			auth: true,
 			method: 'POST',
 			// desc: '审核',
 		},registrationList: {
-			url: 'registration/registrationList/1/50',
+			url: 'registration/registrationList/1/10',
 			auth: true,
 			method: 'POST',
 			// desc: '审核',
