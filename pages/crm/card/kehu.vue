@@ -11,7 +11,7 @@
 				</view>
 				<view>
 					<text class="colorGray">提交时间：</text>
-					<text>{{$u.timeFrom(item.createDate || item.fillingDate, 'yyyy年mm月dd日')}}</text>
+					<text>{{item.createDate || item.fillingDate}}</text>
 				</view>
 				<view v-if="!item.name">
 					<text class="colorGray">是否缴费：</text>
