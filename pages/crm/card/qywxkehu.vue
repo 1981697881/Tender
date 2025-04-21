@@ -58,7 +58,7 @@
 				</view>
 				<view v-else></view>
 				<view class="lxRow" @click.stop="moreShowFun">
-					<image src="/static/icon/gengduosz.png" mode="aspectFill"></image>
+					<image src="/common/icon/gengduosz.png" mode="aspectFill"></image>
 				</view>
 			</view>
 		</view>

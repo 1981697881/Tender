@@ -2,13 +2,13 @@
 <template>
 	<view class="t-login">
 		<!-- 页面装饰图片 -->
-		<image class="img-a" src="@/static/img/login/2.png"></image>
-		<image class="img-b" src="@/static/img/login/3.png"></image>
+		<image class="img-a" src="@/common/login/2.png"></image>
+		<image class="img-b" src="@/common/login/3.png"></image>
 		<!-- 标题 -->
 		<view class="t-b">修改密码</view>
 		<view class="cl" style="margin-top: 40rpx;">
 			<view class="t-a">
-				<image src="@/static/img/login/mm.png"></image>
+				<image src="@/common/login/mm.png"></image>
 				<input name="password" :password="isShowOldP" placeholder="请输入旧密码" v-model="oldPassword" />
 				<view v-if="oldPassword">
 					<u-icon v-if="isShowOldP" @click="isShowOldP = false" class="uIconR" name="eye-fill" color="#8a8a8a"
@@ -18,7 +18,7 @@
 				</view>
 			</view>
 			<view class="t-a">
-				<image src="@/static/img/login/mm.png"></image>
+				<image src="@/common/login/mm.png"></image>
 				<input name="password" :password="isShowP" placeholder="请输入新密码" v-model="newPassword" />
 				<view v-if="newPassword">
 					<u-icon v-if="isShowP" @click="isShowP = false" class="uIconR" name="eye-fill" color="#8a8a8a"
@@ -28,7 +28,7 @@
 				</view>
 			</view>
 			<view class="t-a">
-				<image src="@/static/img/login/mm.png"></image>
+				<image src="@/common/login/mm.png"></image>
 				<input name="password" :password="isShowP2" placeholder="请再次输入新密码" v-model="passwordConfirmation" />
 				<view v-if="passwordConfirmation">
 					<u-icon v-if="isShowP2" @click="isShowP2 = false" class="uIconR" name="eye-fill" color="#8a8a8a"
@@ -47,7 +47,7 @@
 	export default {
 		data() {
 			return {
-				title: '行云客CRM', //填写logo或者app名称，也可以用：欢迎回来，看您需求
+				title: 'CRM', //填写logo或者app名称，也可以用：欢迎回来，看您需求
 				newPassword: '', // 新密码
 				isShowP: true,
 				passwordConfirmation: '', // 新密码2

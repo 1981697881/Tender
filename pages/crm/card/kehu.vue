@@ -9,13 +9,21 @@
 					<text class="colorGray">项目编号：</text>
 					<text>{{item.projectNum || item.pojectNo}}</text>
 				</view>
-				<view>
-					<text class="colorGray">提交时间：</text>
-					<text>{{item.createDate || item.fillingDate}}</text>
+				<view v-if="!item.name">
+					<text class="colorGray">提交日期：</text>
+					<text>{{item.createDate}}</text>
+				</view>
+				<view v-else>
+					<text class="colorGray">填制日期：</text>
+					<text>{{item.fillingDate}}</text>
 				</view>
 				<view v-if="!item.name">
 					<text class="colorGray">是否缴费：</text>
 					<text :class="item.status=='1'?'greenColor':'redColor'">{{item.status=="1"?"已缴费":"未缴费"}}</text>
+				</view>
+				<view v-else>
+					<text class="colorGray">是否审核：</text>
+					<text :class="(item.secondStatus !=  '1' || item.firstStatus !=  '1')?'redColor':'greenColor'">{{(item.secondStatus !=  '1' || item.firstStatus !=  '1')?"未审核":"已审核"}}</text>
 				</view>
 				<!--客户阶段-->
 				<view class="khJieDuan">
@@ -39,7 +47,7 @@
 				<view class="lxRow" v-else>
 				</view>
 				<view class="lxRow" @click.stop="moreShowFun(item)">
-					<image src="/static/icon/gengduosz.png" mode="aspectFill"></image>
+					<image src="/common/icon/gengduosz.png" mode="aspectFill"></image>
 				</view>
 			</view>
 		</view>

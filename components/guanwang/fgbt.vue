@@ -3,7 +3,7 @@
 		<view class="iconView">
 			<u-icon name="phone" color="#FFFFFF" size="26"></u-icon>
 		</view>
-		<view>行云客助手</view>
+		<view>助手</view>
 	</view>
 </template>
 

@@ -25,7 +25,7 @@
 				</view>
 				<view class="fujinBtn">
 					<view class="bottomBtn blueBtn" @click="openLocationFun">
-						<image src="/static/icon/daohang.png" mode="aspectFill"></image>
+						<image src="/common/icon/daohang.png" mode="aspectFill"></image>
 						<text>导航</text>
 					</view>
 				</view>

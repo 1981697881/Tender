@@ -1,6 +1,6 @@
 <template>
 	<view class="tishi">
-		<image v-if="isMore" class="loadingIcon" src="../../static/icon/loading.gif" mode="aspectFill"></image>
+		<image v-if="isMore" class="loadingIcon" src="../../common/icon/loading.gif" mode="aspectFill"></image>
 		<text v-if="isMore">正在加载更多哦...</text>
 		<text v-else>{{nullMsg}}</text>
 	</view>

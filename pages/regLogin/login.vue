@@ -2,19 +2,19 @@
 <template>
 	<view class="t-login">
 		<!-- 页面装饰图片 -->
-		<image class="img-a" src="@/static/img/login/2.png"></image>
-		<image class="img-b" src="@/static/img/login/3.png"></image>
+		<image class="img-a" src="@/common/login/2.png"></image>
+		<image class="img-b" src="@/common/login/3.png"></image>
 		<!-- 标题 -->
 		<view class="t-b">{{ title }}</view>
 		<view v-if="current == 0" class="cl" style="margin-top: 40rpx;">
 			<view class="t-a">
-				<image src="@/static/img/login/sj.png"></image>
+				<image src="@/common/login/sj.png"></image>
 				<input name="username" placeholder="请输入账号/手机号" maxlength="11" v-model="username" />
 				<u-icon v-if="username" @click="username = ''" class="uIconR" name="close-circle-fill" color="#8a8a8a"
 					size="40"></u-icon>
 			</view>
 			<view v-if="isMmLogin" class="t-a">
-				<image src="@/static/img/login/yz.png"></image>
+				<image src="@/common/login/yz.png"></image>
 				<input type="number" name="yzm" maxlength="6" placeholder="请输入验证码" v-model="yzm" />
 				<!-- <view >发送短信</view> -->
 				<u-button v-if="showText" class="t-c" @tap="getCode()" :ripple="true" ripple-bg-color="#909399">发送短信
@@ -22,7 +22,7 @@
 				<view v-else class="t-c" style="background-color: #A7A7A7;">重新发送({{ second }})</view>
 			</view>
 			<view v-else class="t-a">
-				<image src="@/static/img/login/mm.png"></image>
+				<image src="@/common/login/mm.png"></image>
 				<input name="password" :password="isShowP" placeholder="请输入密码" v-model="password" />
 				<view v-if="password">
 					<u-icon v-if="isShowP" @click="isShowP = false" class="uIconR" name="eye-fill" color="#8a8a8a"

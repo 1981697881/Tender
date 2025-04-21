@@ -2,39 +2,39 @@
 <template>
 	<view class="t-login">
 		<!-- 页面装饰图片 -->
-		<image class="img-a" src="@/static/img/login/2.png"></image>
-		<image class="img-b" src="@/static/img/login/3.png"></image>
+		<image class="img-a" src="@/common/login/2.png"></image>
+		<image class="img-b" src="@/common/login/3.png"></image>
 		<!-- 标题 -->
 		<view class="t-b">{{ title }}</view>
 		<u-tabs class="uTabs" :list="tabList" duration="0.1" font-size="40" bar-width="60" :bold="true"
 			:is-scroll="false" :current="current" @change="tabChange"></u-tabs>
 		<view class="cl" style="margin-top: 40rpx;">
 			<view class="t-a" v-if="pageType == 1">
-				<image src="@/static/img/login/bianhao.png"></image>
+				<image src="@/common/login/bianhao.png"></image>
 				<input name="companyName" placeholder="请输入公司名称" v-model="companyName" />
 				<u-icon v-if="companyName" @click="companyName = ''" class="uIconR" name="close-circle-fill"
 					color="#8a8a8a" size="40"></u-icon>
 			</view>
 			<view class="t-a" v-if="pageType == 0">
-				<image src="@/static/img/login/bianhao.png"></image>
+				<image src="@/common/login/bianhao.png"></image>
 				<input name="companyCode" placeholder="请输入企业代码" v-model="companyCode" />
 				<u-icon v-if="companyCode" @click="companyCode = ''" class="uIconR" name="close-circle-fill"
 					color="#8a8a8a" size="40"></u-icon>
 			</view>
 			<view class="t-a" v-if="pageType != 3">
-				<image src="@/static/img/login/xm.png"></image>
+				<image src="@/common/login/xm.png"></image>
 				<input name="nickname" placeholder="请输入姓名" v-model="nickname" />
 				<u-icon v-if="nickname" @click="nickname = ''" class="uIconR" name="close-circle-fill" color="#8a8a8a"
 					size="40"></u-icon>
 			</view>
 			<view class="t-a">
-				<image src="@/static/img/login/sj.png"></image>
+				<image src="@/common/login/sj.png"></image>
 				<input type="number" name="mobile" placeholder="请输入手机号" maxlength="11" v-model="mobile" />
 				<u-icon v-if="mobile" @click="mobile = ''" class="uIconR" name="close-circle-fill" color="#8a8a8a"
 					size="40"></u-icon>
 			</view>
 			<view class="t-a">
-				<image src="@/static/img/login/yz.png"></image>
+				<image src="@/common/login/yz.png"></image>
 				<input type="number" name="yzm" maxlength="6" placeholder="请输入验证码" v-model="yzm" />
 				<!-- <u-button v-if="showText" class="t-c" @click="getCodeFun" :ripple="true" ripple-bg-color="#909399">发送短信
 				</u-button> -->
@@ -42,7 +42,7 @@
 				<view v-else class="t-c" style="background-color: #A7A7A7;">重新发送({{ second }})</view>
 			</view>
 			<view class="t-a">
-				<image src="@/static/img/login/mm.png"></image>
+				<image src="@/common/login/mm.png"></image>
 				<input name="password" :password="isShowP" placeholder="请输入密码" v-model="password" />
 				<view v-if="password">
 					<u-icon v-if="isShowP" @click="isShowP = false" class="uIconR" name="eye-fill" color="#8a8a8a"
@@ -52,7 +52,7 @@
 				</view>
 			</view>
 			<view class="t-a" v-if="pageType == 3">
-				<image src="@/static/img/login/mm.png"></image>
+				<image src="@/common/login/mm.png"></image>
 				<input name="password" :password="isShowP" placeholder="请再次输入新密码" v-model="passwordConfirm" />
 				<view v-if="passwordConfirm">
 					<u-icon v-if="isShowP" @click="isShowP = false" class="uIconR" name="eye-fill" color="#8a8a8a"
@@ -82,7 +82,7 @@
 				}],
 				current: 1,
 				// title: '新建企业~', //填写logo或者app名称，也可以用：欢迎回来，看您需求
-				title: '行云客CRM',
+				title: 'CRM',
 				second: 60, //默认60秒
 				showText: true, //判断短信是否发送
 				companyName: '', // 企业名称

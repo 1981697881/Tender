@@ -11,7 +11,7 @@
 		props: {
 			src: {
 				type: String,
-				default: '/static/img/dataNull.png'
+				default: '/common/img/dataNull.png'
 			},
 			title: {
 				type: String,

@@ -4,7 +4,7 @@
 		<view class="card">
 			<view class="topRow" @click="gotoDetailFun">
 				<view class="txView">
-					<image class="txViewImg" src="/static/icon/touxiangnan.png" mode="aspectFill"></image>
+					<image class="txViewImg" src="/common/icon/touxiangnan.png" mode="aspectFill"></image>
 				</view>
 				<view class="info">
 					<view class="name">
@@ -40,7 +40,7 @@
 					<lianxiRow :phone="item.lxr_phone"></lianxiRow>
 				</view>
 				<view v-if="!isHideMore" class="lxRow" @click.stop="moreShow = true">
-					<image src="/static/icon/gengduosz.png" mode="aspectFill"></image>
+					<image src="/common/icon/gengduosz.png" mode="aspectFill"></image>
 				</view>
 			</view>
 		</view>

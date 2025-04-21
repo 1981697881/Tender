@@ -10,7 +10,7 @@
 				<getMore :isMore="isMore" nullMsg="已加载全部~"></getMore>
 				<view class="h200"></view>
 			</view>
-			<dataNull v-else src="/static/img/dataNull.png" title="暂无相关报名数据~"></dataNull>
+			<dataNull v-else src="/common/img/dataNull.png" title="暂无相关报名数据~"></dataNull>
 		</scroll-view>
 		<addBtn @tap="enroll"></addBtn>
 	</view>

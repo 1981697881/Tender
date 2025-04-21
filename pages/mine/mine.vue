@@ -4,7 +4,7 @@
 		<!-- 个人信息 -->
 		<sh-user-info></sh-user-info>
 		<!-- <view class="topInfo">
-			<image :src="userInfo.avatarUrl || '../../static/img/logo.png'" mode="aspectFill"></image>
+			<image :src="userInfo.avatarUrl || '../../common/img/logo.png'" mode="aspectFill"></image>
 			<view v-if="userInfo.id">
 				<text v-if="userInfo.username && userInfo.zhiwei">{{userInfo.zhiwei}}-{{userInfo.username}}</text>
 				<text v-else-if="userInfo.username">{{userInfo.username}}</text>
@@ -24,49 +24,49 @@
 					<u-icon name="account-fill" class="leftIcon" size="50" color="#3fc35a"></u-icon>
 					<text class="color000">账号登录</text>
 				</view>
-				<image class="enterImg" src="../../static/img/enter.png" mode="aspectFill"></image>
+				<image class="enterImg" src="../../common/img/enter.png" mode="aspectFill"></image>
 			</navigator>
 			<view class="row" @click="gotoSwHzFun">
 				<view class="rowLeft">
-					<image src="../../static/img/shangwuhz.png" mode="aspectFill"></image>
+					<image src="../../common/img/shangwuhz.png" mode="aspectFill"></image>
 					<text class="color000">商务合作</text>
 				</view>
-				<image class="enterImg" src="../../static/img/enter.png" mode="aspectFill"></image>
+				<image class="enterImg" src="../../common/img/enter.png" mode="aspectFill"></image>
 			</view> -->
 			<!-- <view class="row" @click="kaifazhongFun">
 				<view class="rowLeft">
-					<image src="../../static/img/bangzhu.png" mode="aspectFill"></image>
+					<image src="../../common/img/bangzhu.png" mode="aspectFill"></image>
 					<text class="color000">帮助中心</text>
 				</view>
-				<image class="enterImg" src="../../static/img/enter.png" mode="aspectFill"></image>
+				<image class="enterImg" src="../../common/img/enter.png" mode="aspectFill"></image>
 			</view> -->
 			<!-- <view class="row">
 				<view class="rowLeft">
-					<image src="../../static/img/guanyuwomen.png" mode="aspectFill"></image>
+					<image src="../../common/img/guanyuwomen.png" mode="aspectFill"></image>
 					<text class="color000">关于我们</text>
 				</view>
-				<image class="enterImg" src="../../static/img/enter.png" mode="aspectFill"></image>
+				<image class="enterImg" src="../../common/img/enter.png" mode="aspectFill"></image>
 			</view>
 			<view class="row">
 				<view class="rowLeft">
-					<image src="../../static/img/shezhi.png" mode="aspectFill"></image>
+					<image src="../../common/img/shezhi.png" mode="aspectFill"></image>
 					<text class="color000">设置</text>
 				</view>
-				<image class="enterImg" src="../../static/img/enter.png" mode="aspectFill"></image>
+				<image class="enterImg" src="../../common/img/enter.png" mode="aspectFill"></image>
 			</view> -->
 			<view v-if="userInfo.id" @tap.stop="jump('/pages/regLogin/setPassword')" class="row">
 				<view class="rowLeft">
-					<image src="../../static/img/setPassword.png" mode="aspectFill"></image>
+					<image src="../../common/img/setPassword.png" mode="aspectFill"></image>
 					<text class="color000">修改密码</text>
 				</view>
-				<image class="enterImg" src="../../static/img/enter.png" mode="aspectFill"></image>
+				<image class="enterImg" src="../../common/img/enter.png" mode="aspectFill"></image>
 			</view>
 			<!-- <view v-if="userInfo.id" class="row" @click="logoutFun">
 				<view class="rowLeft">
 					<u-icon class="leftIcon" name="info-circle-fill" color="#ff0000" size="50"></u-icon>
 					<text class="color000">退出登录</text>
 				</view>
-				<image class="enterImg" src="../../static/img/enter.png" mode="aspectFill"></image>
+				<image class="enterImg" src="../../common/img/enter.png" mode="aspectFill"></image>
 			</view> -->
 		</view>
 		<!--无网络提示-->
