@@ -4,7 +4,7 @@
 		<view class="cardTopName">发票编号：FP20210326-0001</view>
 		<view class="cardRow">
 			<view>合同名称：</view>
-			<view>行云办公CRM</view>
+			<view></view>
 		</view>
 		<view class="cardRow">
 			<view>开票金额：</view>
@@ -16,7 +16,7 @@
 		</view>
 		<view class="fzrAbsolute">
 			<text class="fzrLeft">负责人：</text>
-			<text class="fzrRight">曹国防</text>
+			<text class="fzrRight"></text>
 		</view>
 		<view class="lookDetail">
 			<text>查看详情</text>

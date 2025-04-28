@@ -47,7 +47,7 @@
 	export default {
 		data() {
 			return {
-				title: 'CRM', //填写logo或者app名称，也可以用：欢迎回来，看您需求
+				title: '', //填写logo或者app名称，也可以用：欢迎回来，看您需求
 				newPassword: '', // 新密码
 				isShowP: true,
 				passwordConfirmation: '', // 新密码2

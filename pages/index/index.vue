@@ -91,34 +91,6 @@
 						url: 'pages/crm/kehu/kehu',
 						menu_id: 'client'
 					},
-					/* {
-						bgColor: 'linear-gradient(45deg, #62dbff, #ff5aaa)',
-						src: '/common/icon/business.png',
-						name: '保证金',
-						url: 'pages/crm/shangji/shangji',
-						menu_id: 'business'
-					}, 
-					{
-						bgColor: 'linear-gradient(45deg, #55aaff, #62dbff)',
-						src: '/common/icon/genjin.png',
-						name: '公告',
-						url: 'pages/crm/genJin/genJin',
-						menu_id: 'followUp'
-					},
-					 {
-						bgColor: 'linear-gradient(45deg, #00d6d6, #a0efef)',
-						src: '/common/icon/baojiadan.png',
-						name: '报价单',
-						url: 'pages/crm/baoJiaDan/baoJiaDan',
-						menu_id: 'quotation'
-					}, 
-					{
-						bgColor: 'linear-gradient(45deg, #ffaa00, #ffaa7f)',
-						src: '/common/icon/contract.png',
-						name: '合同',
-						url: 'pages/crm/hetong/hetong',
-						menu_id: 'contract'
-					}*/
 				],
 				xsUserList: [],
 				swiperCurrent: 0, //轮播下标

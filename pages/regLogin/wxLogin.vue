@@ -3,8 +3,8 @@
 		<view style="text-align: center;">
 			<image style="width: 120rpx;height: 120rpx;margin-top: 140rpx;border-radius:20rpx"
 				src="https://zy.gzfzdev.com/file/logo.png"></image>
-			<view style="font-size: 28rpx;margin-top: 32rpx">CRM客户关系管理软件</view>
-			<view style="font-size: 28rpx;margin-top: 16rpx">功能丰富、轻松获客、高效管理客户</view>
+			<view style="font-size: 28rpx;margin-top: 32rpx"></view>
+			<view style="font-size: 28rpx;margin-top: 16rpx"></view>
 			<button class="confirm-btn" open-type="getUserInfo" @getuserinfo="bindgetuserinfoFun">微信登录</button>
 			<!-- 底部信息 -->
 			<!-- <view class="footer">

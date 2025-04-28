@@ -2,7 +2,7 @@
 	<view>
 		<!--基础信息-->
 		<view class="btName">基础信息</view>
-		<view class="flex-white-plr26 ptb20 mt32 bdb_f5" :class="clientDisabled ? 'disabledStyle' : ''" >
+		<!-- <view class="flex-white-plr26 ptb20 mt32 bdb_f5" :class="clientDisabled ? 'disabledStyle' : ''" >
 			<text class="mr26">项目名称
 				<text class="redXingh">*</text>
 			</text>
@@ -10,20 +10,20 @@
 				<text style="display: inline-block;width: 450rpx;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;text-align: center;">{{form.projectName ? form.projectName : '请选择'}}</text>
 				<u-icon class="ml26" v-if="!isNotice" name="arrow-right" size="40" color="#888888"></u-icon>
 			</view>
-		</view>
-		<!-- <view class="flex-white-plr26 ptb10 bdb_f5">
-			<text class="mr26">
-				<text>项目名称</text>
-				<text class="redXingh">*</text>
-			</text>
-			<u-input :disabled="isNotice" v-model="form.projectName" placeholder="必填" />
 		</view> -->
 		<view class="flex-white-plr26 ptb10 bdb_f5">
 			<text class="mr26">
 				<text>项目编号</text>
 				<text class="redXingh">*</text>
 			</text>
-			<u-input :disabled="isNotice" v-model="form.projectNum" placeholder="必填" />
+			<u-input :disabled="isNotice" v-model="form.projectNum" confirm-type="search" @confirm="onSearchInput" placeholder="必填" />
+		</view>
+		<view class="flex-white-plr26 ptb10 bdb_f5">
+			<text class="mr26">
+				<text>项目名称</text>
+				<text class="redXingh">*</text>
+			</text>
+			<u-input :disabled="isNotice" v-model="form.projectName" placeholder="必填" />
 		</view>
 		<view class="flex-white-plr26 ptb10 bdb_f5">
 			<text class="mr26">
@@ -87,7 +87,9 @@
 		data() {
 			return {
 				isNotice: false,
+				debounceTimer: null,
 				imageUrl: '',
+				searchValue: '',
 				form: {
 					projectName: '',
 					projectNum: '',
@@ -145,7 +147,42 @@
 				userInfo: state => state.user.userInfo,
 			}),
 		},
+		onUnload() {
+		    if (this.debounceTimer) clearTimeout(this.debounceTimer);
+		},
 		methods: {
+			 onKeyInput(event) {
+			            this.searchValue = event;
+			            
+			            if (this.debounceTimer) clearTimeout(this.debounceTimer);
+			            this.debounceTimer = setTimeout(() => {
+			                this.getProject();
+			            }, 1000);
+			        },
+			onSearchInput: function(event) {
+				this.searchValue = event
+				this.getProject()
+			},
+			// 查询
+			getProject: function() {
+				uni.showLoading({
+					title: '加载中...',
+					mask: true
+				})
+				that.$api('bidding.projectInitiationList', {pageNum: 1,pageSize: 1, projectName: this.searchValue}, {
+				}).then(res => {
+					if (res.flag ) {
+						if(res.data.records.length>0){
+							const data = res.data.records[0]
+							that.form.projectNum = data.pojectNo;
+							that.form.projectName = data.projectName;
+							that.form.regFee = data.regFee;
+						}
+						uni.hideLoading();
+					}
+				});
+				
+			},
 			// 绑定项目
 			gjKehuBindFun: function(e) {
 				let that = this;
