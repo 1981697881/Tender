@@ -91,17 +91,20 @@
 						if (res.tapIndex == 0) {
 							that.jump('pages/crm/kehu/addKeHu', {
 								"isAdd": 1,
-								"name": "询价项目"
+								"name": "询价项目",
+								"projectType": 1
 							})
 						} else if (res.tapIndex == 1) {
 							that.jump('pages/crm/kehu/addKeHu', {
 								"isAdd": 1,
-								"name": "公开招标、磋商(谈判)项目"
+								"name": "公开招标、磋商(谈判)项目",
+								"projectType": 2
 							})
 						} else {
 							that.jump('pages/crm/kehu/addKeHu', {
 								"isAdd": 1,
-								"name": "企业标"
+								"name": "企业标",
+								"projectType": 3
 							})
 						}
 

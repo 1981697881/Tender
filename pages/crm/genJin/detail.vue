@@ -82,21 +82,25 @@
 								"isAdd": 1,
 								"name": "询价项目",
 								"projectName": that.infoObj.projectName,
-								"projectNumber": that.infoObj.projectNumber
+								"projectNumber": that.infoObj.projectNumber,
+								"projectType": that.infoObj.projectType
 							})
 						} else if (res.tapIndex == 1) {
 							that.jump('pages/crm/kehu/addKeHu', {
 								"isAdd": 1,
 								"name": "公开招标、磋商(谈判)项目",
 								"projectName": that.infoObj.projectName,
-								"projectNumber": that.infoObj.projectNumber
+								"projectNumber": that.infoObj.projectNumber,
+								"projectType": that.infoObj.projectType
+								
 							})
 						} else {
 							that.jump('pages/crm/kehu/addKeHu', {
 								"isAdd": 1,
 								"name": "企业标",
 								"projectName": that.infoObj.projectName,
-								"projectNumber": that.infoObj.projectNumber
+								"projectNumber": that.infoObj.projectNumber,
+								"projectType": that.infoObj.projectType
 							})
 						}
 					},

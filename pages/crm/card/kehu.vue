@@ -119,9 +119,9 @@
 								amount: item.regFee,
 								openId: that.userInfo.openid,
 								payType: 1,
-
 								regId: item.id,
 								pojectNo: item.projectNum,
+								projectType: item.projectType,
 								projectName: item.projectName
 							};
 							uni.$khInfo = item;

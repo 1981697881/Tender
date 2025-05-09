@@ -90,6 +90,7 @@
 				debounceTimer: null,
 				imageUrl: '',
 				searchValue: '',
+				projectType: null,
 				form: {
 					projectName: '',
 					projectNum: '',
@@ -117,11 +118,13 @@
 				that.form.projectNum = e.projectNumber
 				that.isNotice = true
 			}
+			
 			if (e.type == 'update') {
 				that.pageType = e.type;
 				if (uni.$addInfo) {
 					this.form = uni.$addInfo
 				}
+				this.projectType = uni.$addInfo.projectType
 				this.form.businessCertificate = JSON.parse(uni.$addInfo.businessCertificate)
 				this.form.relevantInformation = JSON.parse(uni.$addInfo.relevantInformation)
 				if (e.type == 'update') {
@@ -130,6 +133,7 @@
 					})
 				}
 			} else {
+				this.projectType = e.projectType
 				uni.setNavigationBarTitle({
 					title: e.name
 				})
@@ -370,6 +374,7 @@
 				}
 				var params = {...this.form}
 				params.nickName = this.userInfo.nickName
+				params.projectType = that.projectType
 				console.log(params.businessCertificate)
 				params.businessCertificate = params.businessCertificate.length>0?params.businessCertificate[0]["path"]:""
 				params.relevantInformation = params.relevantInformation.length>0?params.relevantInformation[0]["path"]:""
@@ -392,6 +397,7 @@
 										openId: that.userInfo.openid,
 										payType: 1,
 										regId: res.data["id"],
+										projectType: that.projectType,
 										pojectNo: that.form.projectNum,
 										projectName: that.form.projectName
 									};
