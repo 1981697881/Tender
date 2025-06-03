@@ -74,7 +74,6 @@
 			let e = this.$Route.query
 			that.cardIndex = e.index || -1;
 			that.khInfo = uni.$khInfo || {};
-			console.log(uni.$khInfo)
 			if(uni.$khInfo){
 				await that.getDatailInfo();
 			}
@@ -180,7 +179,8 @@
 			},
 			// 修改客户信息
 			pageBianjiFun: function() {
-				uni.$infoObj = that.khInfo;
+				uni.$infoObj = this.khInfo;
+				console.log(uni.$infoObj)
 				uni.navigateTo({
 					url: './addKeHu?type=update'
 				})

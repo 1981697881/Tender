@@ -58,14 +58,14 @@
 		</view>
 		<view class="text-center bg-white">
 			<uni-file-picker :auto-upload="false" v-model="form.businessCertificate" :limit="1" file-mediatype="image"
-				mode="grid" file-extname="png,jpg" @select="select($event, 'fault',form.businessCertificate)" @delete="delFile($event, 'fault',form.businessCertificate)" />
+				 file-extname="png,jpg" @select="select($event, 'fault',form.businessCertificate)" @delete="delFile($event, 'fault',form.businessCertificate)" />
 		</view>
-		<view class="flex-white-plr26 ptb10 bdb_f5">
+		<view class="flex-white-plr26 ptb10 bdb_f5"> 
 			<text class="mr26">相关资质证明</text>
 		</view>
-		<view class="text-center bg-white">
+		<view class="text-center bg-white"> 
 			<uni-file-picker :auto-upload="false" v-model="form.relevantInformation" :limit="1" file-mediatype="image"
-				mode="grid" file-extname="png,jpg" @select="select($event, 'certificate',form.relevantInformation)" @delete="delFile($event, 'certificate',form.relevantInformation)" />
+				 file-extname="png,jpg" @select="select($event, 'certificate',form.relevantInformation)" @delete="delFile($event, 'certificate',form.relevantInformation)" />
 		</view>
 		<!--提交按钮-->
 		<view class="submitView">
@@ -99,8 +99,8 @@
 					contactNumber: '',
 					mailbox: '',
 					regFee: 1,
-					businessCertificate: [],
-					relevantInformation: []
+					businessCertificate: '',
+					relevantInformation: ''
 				}
 			}
 		},
@@ -118,15 +118,13 @@
 				that.form.projectNum = e.projectNumber
 				that.isNotice = true
 			}
-			
+			console.log(e.type)
 			if (e.type == 'update') {
 				that.pageType = e.type;
-				if (uni.$addInfo) {
-					this.form = uni.$addInfo
+				if (uni.$infoObj) {
+					this.form = uni.$infoObj
+					this.projectType = uni.$infoObj.projectType
 				}
-				this.projectType = uni.$addInfo.projectType
-				this.form.businessCertificate = JSON.parse(uni.$addInfo.businessCertificate)
-				this.form.relevantInformation = JSON.parse(uni.$addInfo.relevantInformation)
 				if (e.type == 'update') {
 					uni.setNavigationBarTitle({
 						title: '修改报名信息'
@@ -190,8 +188,6 @@
 			// 绑定项目
 			gjKehuBindFun: function(e) {
 				let that = this;
-				console.log(this.isNotice)
-				console.log(e)
 				if(!that.isNotice) {
 					if(e.projectNum != '' && e.projectName != '') {
 						that.form.projectNum = e.projectNum;
@@ -210,6 +206,7 @@
 			},
 			// 选择文件后触发 - 支持多选
 			select(e, action, val) {
+				console.log('val', val)
 				let that = this
 				// tempFiles - Array[Files]
 				// 控制台查看该组件的files数据类型
@@ -218,7 +215,7 @@
 					uni.uploadFile({
 						url: API_URL + 'file/imgUpload',
 						filePath: item.url,
-						name: 'imgS',
+						name: 'files',
 						header: {
 							Authorization: uni.getStorageSync('token')
 						},
@@ -229,21 +226,24 @@
 								if (!val instanceof Array) {
 									val = []
 								}
+								console.log(data.data)
+								that.form.businessCertificate = data.data
 								let actionData = val;
-								actionData.push({
-									path: that.imageUrl + data.data,
-									uuid: data.data
-								});
+								// actionData.push({
+								// 	path: that.imageUrl + data.data,
+								// 	uuid: data.data
+								// });
 							} else if (action === 'certificate') {
 								// 凭证图片
 								if (!val instanceof Array) {
 									val = []
 								}
+								that.form.relevantInformation = data.data;
 								let actionData = val;
-								actionData.push({
-									path: that.imageUrl + data.data,
-									uuid: data.data
-								});
+								// actionData.push({
+								// 	path: that.imageUrl + data.data,
+								// 	uuid: data.data
+								// });
 							}
 							uni.showToast({
 								icon: 'success',
@@ -267,27 +267,30 @@
 					url
 				} = e.tempFile;
 				console.log(e.tempFile)
+	
 				// 需要操作的目标对象
 				if (action === 'fault') {
 					// 故障图片
 					let actionData = val;
-					for (let i = 0; i < actionData.length; i++) {
-						// 删除对应的file
-						if (actionData[i].uuid === e.tempFile.uuid) {
-							actionData.splice(i, 1);
-							return;
-						}
-					}
+					this.form.businessCertificate = ''
+					// for (let i = 0; i < actionData.length; i++) {
+					// 	// 删除对应的file
+					// 	if (actionData[i].uuid === e.tempFile.uuid) {
+					// 		actionData.splice(i, 1);
+					// 		return;
+					// 	}
+					// }
 				} else if (action === 'certificate') {
 					// 凭证图片
 					let actionData = val;
-					for (let i = 0; i < actionData.length; i++) {
-						// 删除对应的file
-						if (actionData[i].uuid === e.tempFile.uuid) {
-							actionData.splice(i, 1);
-							return;
-						}
-					}
+					this.form.relevantInformation = ''
+					// for (let i = 0; i < actionData.length; i++) {
+					// 	// 删除对应的file
+					// 	if (actionData[i].uuid === e.tempFile.uuid) {
+					// 		actionData.splice(i, 1);
+					// 		return;
+					// 	}
+					// }
 				}
 
 			},
@@ -375,9 +378,9 @@
 				var params = {...this.form}
 				params.nickName = this.userInfo.nickName
 				params.projectType = that.projectType
-				console.log(params.businessCertificate)
-				params.businessCertificate = params.businessCertificate.length>0?params.businessCertificate[0]["path"]:""
-				params.relevantInformation = params.relevantInformation.length>0?params.relevantInformation[0]["path"]:""
+				console.log('params',params)
+				params.businessCertificate = params.businessCertificate//.length>0?params.businessCertificate[0]["path"]:""
+				params.relevantInformation = params.relevantInformation//.length>0?params.relevantInformation[0]["path"]:""
 				that.$api('bidding.signUp', params).then(res => {
 					if (res.flag) {
 						uni.hideLoading();
