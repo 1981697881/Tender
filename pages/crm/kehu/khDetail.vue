@@ -99,7 +99,7 @@
 					title: '加载中...',
 					mask: true
 				})
-				await that.$api('bidding.registrationList', {projectNum: that.khInfo.projectNum}, {
+				await that.$api('bidding.registrationList', {projectNum: that.khInfo.projectNum, id: that.khInfo.id}, {
 				}).then(res => {
 					if (res.flag) {
 						that.khInfo = res.data.records[0]
